@@ -52,8 +52,18 @@ list --category category_name [--month month_num]
 
 * parser.parse_arguments() --> Namespace
 
-* load_db(Namespace.path_var) --> json object. Check if it is just a python dict
+* db_logic.load_db(Namespace.path_var) --> Db object
+Db is a subclass of UserDict with 2 additional attributes:
+    path
+    last_index
+        get it at the initialization with next(reversed(self.data)). 
+        Dont forget to convert to int
+    __getitem__(key):
+        convert the key to str for compatability with json
+
 As a database use json file. The default location is ./expenses_tracker_db.json
+
+
 
 * extract command that needs to run:
     command = Namespace.command_var
@@ -79,3 +89,27 @@ function followed by the _:
     add_task
     delete_task
     list_tasks
+    ...
+
+#### Structure
+./
+    main.py
+    To add a command I need to: 
+        create a parser
+        create a function corresponding to that parser
+            What does the function access?
+                db. Is a dict. so no need to import json. Also no need to 
+                know about the main. Just manipulate the data or extract it
+                and return new db dictionary.
+                global dict of commands???
+                    NO, I'll import the function to the main module
+                    and there add to the global dictionary of all the commands
+        here we import handlers, db_logic, 
+        implement main function and helpers used inside it
+    handlers/
+        add_handler.py
+        delete_handler.py
+        etc....
+    database.py
+                
+                
