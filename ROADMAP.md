@@ -1,6 +1,22 @@
 # Expenses_tracker roadmap
+## Expense data Structure inside json db
+* id type=int
+    * category_name type=str
+    * cost type=float
+    * description type=str
+    * CreatedAt type=formatted datetime
+    * UpdatedAt type=formatted datetime
+
+'1': {
+    'category_name': 'Taxi',
+    'cost': '12.25',
+    'description': "",
+    'CreatedAt': 'Mon Jul 20 19:03:36 2026'
+    'UpdatedAt': 'Mon Jul 20 19:13:36 2026'
+}
 
 ## To-implement
+
 ### Main function
 * initialize parser() --> argparse.Argparser object
 #### Structure:
