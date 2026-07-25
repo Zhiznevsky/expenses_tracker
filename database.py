@@ -52,6 +52,3 @@ def load_db(path: Path) -> Db:
 
     db = Db(data, path=path)
     return db
-
-         
-
