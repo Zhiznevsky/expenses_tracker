@@ -1,13 +1,24 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 import argparse
+from datetime import datetime
 
 if TYPE_CHECKING:
     from database import Db
 
+command_name = "add"
 
 def main(args: argparse.Namespace, db:Db) -> None:
-    pass
+    new_id = str(db.last_id + 1)
+    db[new_id] = {
+            "category_name": args.category_name,
+            "cost": args.cost,
+            "description": args.description,
+            "CreatedAt": datetime.now().ctime(),
+            "UpdatedAt": "",
+    }
+
+    db.save()
 
 
 def apply_subparser(subparsers: argparse._SubParsersAction):
