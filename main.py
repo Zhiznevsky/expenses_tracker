@@ -1,5 +1,6 @@
 import argparse
 import importlib
+from pkgutil import iter_modules
 
 import database
 import handlers
@@ -25,8 +26,8 @@ def initialize_parser() -> argparse.ArgumentParser:
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
-    for handler_name in (module_name for module_name in dir(handlers) if module_name.endswith("_handler")):
-        handler_module = importlib.import_module(handler_name)
+    for module_info in iter_modules(handlers.__path__):
+        handler_module = importlib.import_module(f"handlers.{module_info.name}")
 
         commands[handler_module.command_name] = handler_module.main
         handler_module.apply_subparser(subparsers)
