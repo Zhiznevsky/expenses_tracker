@@ -5,7 +5,7 @@ import sys
 
 
 class Db(UserDict):
-    def __init__(self, *args, path: Path, last_index: int = 0, **kwargs):
+    def __init__(self, *args, path: Path, last_id: int = 0, **kwargs):
         super().__init__(*args, **kwargs)
         self.path = path
 
@@ -15,8 +15,7 @@ class Db(UserDict):
             except ValueError as err:
                 self.corruption_handler(err)
         else:
-            self.last_index = last_index
-
+            self.last_id = last_id
 
     def save(self) -> None:
         try:
