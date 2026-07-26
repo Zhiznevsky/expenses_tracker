@@ -38,7 +38,7 @@ def apply_subparser(subparsers: argparse._SubParsersAction):
                                nargs="?")
     add_subparser.add_argument("cost",
                                type=float,
-                               help="Optional. How much money was spent"
+                               help="Optional. How much money was spent",
                                default="",
                                nargs="?")
     add_subparser.add_argument("description",
