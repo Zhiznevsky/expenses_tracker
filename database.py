@@ -9,9 +9,10 @@ class Db(UserDict):
         super().__init__(*args, **kwargs)
         self.path = path
 
+        self.category_names = self.data.pop("category_names", [])
         if self.data:
             try:
-                self.last_index = int(next(reversed(self.data.keys())))
+                self.last_id = int(next(reversed(self.data.keys())))
             except ValueError as err:
                 self.corruption_handler(err)
         else:
@@ -20,6 +21,7 @@ class Db(UserDict):
     def save(self) -> None:
         try:
             with self.path.open("w") as file:
+                self.data["category_names"] = self.category_names
                 json.dump(self.data, file, indent=2)
         except FileNotFoundError:
             print(f"Database file which was open for this process was not\

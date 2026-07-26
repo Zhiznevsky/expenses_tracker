@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 command_name = "create"
 
 def main(args: argparse.Namespace, db:Db) -> None:
-    db["category_names"].append(args.category_name)
+    db.category_names.append(args.category_name)
     db.save()
 
 def apply_subparser(subparsers: argparse._SubParsersAction):

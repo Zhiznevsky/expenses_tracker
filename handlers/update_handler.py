@@ -9,14 +9,17 @@ if TYPE_CHECKING:
 command_name = "update"
 
 def main(args: argparse.Namespace, db:Db) -> None:
-    entry = db[args.id]
+    entry = db[str(args.id)]
     updated = False
 
     if args.category_name:
         entry["category_name"] = args.category_name
+        updated = True
     if args.cost:
         entry["cost"] = args.cost
+        updated = True
     if args.description:
+        updated = True
         entry["description"] = args.description
 
     if updated:
@@ -26,25 +29,26 @@ def main(args: argparse.Namespace, db:Db) -> None:
 
 
 def apply_subparser(subparsers: argparse._SubParsersAction):
-    add_subparser = subparsers.add_parser(
+    update_subparser = subparsers.add_parser(
             "update",
             help="Update entry information"
             )
-
-    add_subparser.add_argument("category_name",
+    
+    update_subparser.add_argument("id", type=int)
+    update_subparser.add_argument("--category_name",
                                type=str,
                                help="Optional. Category of the expense",
-                               default="",
+                               default=None,
                                nargs="?")
-    add_subparser.add_argument("cost",
+    update_subparser.add_argument("--cost",
                                type=float,
                                help="Optional. How much money was spent",
-                               default="",
+                               default=None,
                                nargs="?")
-    add_subparser.add_argument("description",
+    update_subparser.add_argument("--description",
                                type=str,
                                nargs="?",
-                               default="",
+                               default=None,
                                help="Optional. Description of expense"
                                )
     

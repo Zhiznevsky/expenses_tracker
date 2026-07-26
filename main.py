@@ -1,13 +1,14 @@
 import argparse
 import importlib
 from pkgutil import iter_modules
+from pathlib import Path
 
 import database
 import handlers
 
 from collections.abc import Callable
 
-DEFAULT_DB_PATH = "./db.json"
+DEFAULT_DB_PATH = Path("./db.json")
 
 commands: dict[str, Callable[[argparse.Namespace, database.Db], None]] = {}
 
@@ -41,7 +42,7 @@ def main():
 
     args = parser.parse_args()
 
-    db = database.load_db(args.path)
+    db = database.load_db(args.db_path)
 
     command = args.command
     commands[command](args, db)
