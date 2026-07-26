@@ -1,39 +1,35 @@
 import argparse
+import importlib
 
 import database
 import handlers
 
 from collections.abc import Callable
 
+DEFAULT_DB_PATH = "./db.json"
 
 commands: dict[str, Callable[[argparse.Namespace, database.Db], None]] = {}
 
-
-def add_command(func: Callable) -> None:
-    '''Decorator to add function to the commands global dict
-
-    key = function's name until the first _
-    value = function
-
-    Example:
-    @add_command
-    def add_expense(...):
-        ...
-
-    Creates   "add": add_expense   entry in commands global dict'''
-
-    first_word_from_name = func.__name__.split("_")[0]
-    commands[first_word_from_name] = func
 
 def initialize_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
             description="Track your expenses inside terminal. Use categories\
             for better understanding of your spending habits."
             )
-    subparsers = parser.add_subparsers(dest="command" required=True)
+    parser.add_argument("--db_path",
+                        nargs=1,
+                        default=DEFAULT_DB_PATH,
+                        required=False,
+                        dest="db_path",
+                        help="Choose file to use as a database. Must be ,json",
+    )
+    subparsers = parser.add_subparsers(dest="command", required=True)
 
-    # for handler_name in (module for module in dir(handlers) if module.endswith("_handler")):
-    
+    for handler_name in (module_name for module_name in dir(handlers) if module_name.endswith("_handler")):
+        handler_module = importlib.import_module(handler_name)
+
+        commands[handler_module.command_name] = handler_module.main
+        handler_module.apply_subparser(subparsers)
 
     return parser
 
@@ -48,8 +44,6 @@ def main():
 
     command = args.command
     commands[command](args, db)
-
-    db.save()
 
  
 if  __name__ == "__main__":
