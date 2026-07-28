@@ -45,4 +45,3 @@ def apply_subparser(subparsers: argparse._SubParsersAction):
                                default="",
                                help="Optional. Description of expense"
                                )
-    

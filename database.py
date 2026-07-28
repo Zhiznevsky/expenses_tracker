@@ -2,9 +2,27 @@ from collections import UserDict
 from pathlib import Path
 import json
 import sys
+from typing import TypedDict
+
+category_name_col_width = 15
+cost_col_width = 10
+descripton_col_width = 50
+created_at_col_width = 27
+updated_at_col_width = 27
+
+
+class Entry(TypedDict):
+    category_name: str
+    cost: float
+    description: str
+    CreatedAt: str
+    UpdatedAt: str
 
 
 class Db(UserDict):
+    data: dict[str, Entry] 
+
+
     def __init__(self, *args, path: Path, last_id: int = 0, **kwargs):
         super().__init__(*args, **kwargs)
         self.path = path
@@ -53,3 +71,13 @@ def load_db(path: Path) -> Db:
 
     db = Db(data, path=path)
     return db
+
+def print_table_header() -> None:
+    print(f"{'Category':^{category_name_col_width}}|{'Cost':^{cost_col_width}}|{'Description':^{descripton_col_width}}|{'Created':^{created_at_col_width}}|{'Updated':^{updated_at_col_width}}")
+
+def print_table_separator() -> None:
+    print(f"{'-' * category_name_col_width}|{'-' * cost_col_width}|{'-' * descripton_col_width}|{'-' * created_at_col_width}|{'-' * updated_at_col_width}")
+
+def print_entry(entry: Entry) -> None:
+    print(f"{entry['category_name']:^{category_name_col_width}}|{entry['cost']:^{cost_col_width}}|{entry['description']:^{descripton_col_width}}|{entry['CreatedAt']:^{created_at_col_width}}|{entry['UpdatedAt']:^{updated_at_col_width}}")
+

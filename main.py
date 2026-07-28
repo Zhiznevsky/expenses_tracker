@@ -27,6 +27,7 @@ def initialize_parser() -> argparse.ArgumentParser:
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
+    # import handler modules
     for module_info in iter_modules(handlers.__path__):
         handler_module = importlib.import_module(f"handlers.{module_info.name}")
 
@@ -37,7 +38,6 @@ def initialize_parser() -> argparse.ArgumentParser:
 
 
 def main():
-    # Fill commands global dict with commands that represent the logic of the programm
     parser = initialize_parser()
 
     args = parser.parse_args()

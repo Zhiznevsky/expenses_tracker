@@ -19,5 +19,3 @@ def apply_subparser(subparsers: argparse._SubParsersAction):
             )
 
     delete_subparser.add_argument("id", type=int, help="id of the entry to delete")
-    
-
