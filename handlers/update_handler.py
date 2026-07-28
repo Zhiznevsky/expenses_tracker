@@ -2,6 +2,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 import argparse
 from datetime import datetime
+import sys
+
 
 if TYPE_CHECKING:
     from database import Db
@@ -13,8 +15,12 @@ def main(args: argparse.Namespace, db:Db) -> None:
     updated = False
 
     if args.category_name:
-        entry["category_name"] = args.category_name
-        updated = True
+        if args.category_name in db.category_names:
+            entry["category_name"] = args.category_name
+            updated = True
+        else:
+            print(f"No such category {args.category_name}")
+            sys.exit()
     if args.cost:
         entry["cost"] = args.cost
         updated = True
