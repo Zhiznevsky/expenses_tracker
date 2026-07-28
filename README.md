@@ -1,4 +1,5 @@
 # Expenses tracker
+Comments are absent, type hinting is weak. Implementation is partially hard to read. I'll work on it here or when I'll do the next project
 
 ## Description
 This is simple cli to track your expenses. Uses python and file as a storage
